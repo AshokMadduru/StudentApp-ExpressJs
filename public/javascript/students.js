@@ -57,19 +57,6 @@ function getStudentsData() {
   req.send();
 }
 
-var callback = function(response){
-   // Continuously update stream with data
-   var body = '';
-   response.on('data', function(data) {
-      body += data;
-   });
-
-   response.on('end', function() {
-      // Data received completely.
-      console.log(body);
-   });
-}
-
 function showStudentsData(response) {
   nameText.value = 'Student Name';
   branchText.value = 'Student branch';
@@ -79,7 +66,7 @@ function showStudentsData(response) {
 
 for (var i = 0; i < res.length; i++) {
   html += '<tr><td>' + res[i].name +"</td><td>"+res[i].branch+"</td><td>"
-        +res[i].rollno+"</td><td>"+ addButton(res[i].id);
+        +res[i].rollno+"</td><td>"+ addButton(res[i]._id);
   html += '</td></tr>';
 }
 var div = document.getElementById('data');
@@ -88,6 +75,7 @@ div.innerHTML = "<table style='width:100%'><col width='200'><col width='200'>' <
 }
 
 function addButton(id) {
+  console.log(id);
   var buttonField = "<button onclick=editStudent(this) id='edit"+id
         +"'>Edit</button><button onclick=removeStudent(this) id='remove"
         +id+"'>Remove</button>";
@@ -95,7 +83,7 @@ function addButton(id) {
 }
 
 function editStudent(event) {
-    var studentId = event.id.replace('edit','');
+  var studentId = event.id.replace('edit','');
   createModel(studentId);
 }
 
@@ -171,7 +159,7 @@ window.onclick = function(event) {
 function getStuData(id) {
   console.log( studentData + id);
   for (var i = 0; i < studentData.length; i++) {
-    if (id === (studentData[i].id+'')) {
+    if (id === (studentData[i]._id+'')) {
       console.log(studentData[i]);
       return studentData[i];
     }
