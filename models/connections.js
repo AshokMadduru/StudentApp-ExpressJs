@@ -1,15 +1,10 @@
-var mysql = require('mysql');
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Ash@k001"
-});
+var mongo = require('mongodb');
+var mongoClient = mongo.MongoClient;
+var url = "mongodb://localhost:27017/student_database";
 
-var createDb = con.connect(function(err) {
+var createDb = mongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  con.query("CREATE DATABASE student_app", function (err, result) {
-    if (err) throw err;
-  });
+  console.log("Database created!");
 });
 
-module.exports = createDb;
+module.exports = {mongoClient, url};
